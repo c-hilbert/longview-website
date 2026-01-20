@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { createClient } from '@/lib/supabase/server'
 import { Card } from '@/components/ui/Card'
+import { VoteButton } from '@/components/features/discussions/VoteButton'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -39,19 +40,7 @@ export default async function PostPage({ params }: PageProps) {
     <div className="max-w-3xl mx-auto">
       <Card>
         <div className="flex gap-4">
-          <div className="flex flex-col items-center gap-1 min-w-[48px]">
-            <button className="p-1 hover:bg-neutral-100 rounded">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-              </svg>
-            </button>
-            <span className="text-lg font-medium">{post.upvote_count}</span>
-            <button className="p-1 hover:bg-neutral-100 rounded">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
+          <VoteButton postId={post.id} initialCount={post.upvote_count} />
 
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-semibold mb-2">{post.title}</h1>
