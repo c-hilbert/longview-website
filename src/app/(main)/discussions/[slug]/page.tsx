@@ -4,6 +4,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { createClient } from '@/lib/supabase/server'
 import { Card } from '@/components/ui/Card'
 import { VoteButton } from '@/components/features/discussions/VoteButton'
+import { CommentThread } from '@/components/features/discussions/CommentThread'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -74,14 +75,9 @@ export default async function PostPage({ params }: PageProps) {
       </Card>
 
       <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-4">
-          {post.comment_count} {post.comment_count === 1 ? 'Comment' : 'Comments'}
-        </h2>
-
+        <h2 className="text-lg font-semibold mb-4">Comments</h2>
         <Card>
-          <p className="text-neutral-500 text-center py-4">
-            No comments yet. Be the first to share your thoughts.
-          </p>
+          <CommentThread postId={post.id} />
         </Card>
       </div>
     </div>
