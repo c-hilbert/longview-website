@@ -36,11 +36,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Better link styling */
-a {
-  color: inherit;
-  text-decoration-color: var(--accent);
-}
 
 /* Prose styling for content */
 .prose h2 {
