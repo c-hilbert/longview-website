@@ -39,21 +39,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white p-8 rounded-lg border border-neutral-200">
-          <h1 className="text-2xl font-semibold text-center mb-2">Welcome back</h1>
-          <p className="text-neutral-600 text-center mb-8">Sign in to join the conversation</p>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-6">
+            <span className="w-10 h-10 bg-rose-900 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold">L</span>
+            </span>
+          </Link>
+          <h1 className="text-2xl font-semibold mb-2">Welcome back</h1>
+          <p className="text-stone-500">Sign in to join the conversation</p>
+        </div>
 
+        <div className="bg-white p-8 rounded-xl border border-stone-200/80 shadow-sm">
           {error && (
-            <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-md">
+            <div className="mb-6 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-lg">
               {error}
             </div>
           )}
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-neutral-300 rounded-md hover:bg-neutral-50 mb-6"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 hover:border-stone-400 transition-colors mb-6"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -66,10 +73,10 @@ export default function LoginPage() {
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-neutral-200" />
+              <div className="w-full border-t border-stone-200" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-neutral-500">or</span>
+              <span className="px-3 bg-white text-stone-400">or</span>
             </div>
           </div>
 
@@ -92,14 +99,14 @@ export default function LoginPage() {
               {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
-
-          <p className="mt-6 text-center text-sm text-neutral-600">
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-medium hover:underline">
-              Sign up
-            </Link>
-          </p>
         </div>
+
+        <p className="mt-6 text-center text-sm text-stone-500">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="font-medium text-stone-900 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   )

@@ -39,17 +39,16 @@ export default function HomePage() {
         </Card>
 
         <Card>
-          <h2 className="font-semibold mb-4">Community Stats</h2>
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-semibold">0</div>
-              <div className="text-sm text-neutral-600">Members</div>
-            </div>
-            <div>
-              <div className="text-2xl font-semibold">0</div>
-              <div className="text-sm text-neutral-600">Discussions</div>
-            </div>
-          </div>
+          <h2 className="font-semibold mb-3">Community Guidelines</h2>
+          <p className="text-sm text-neutral-600 mb-4">
+            Be respectful, stay on topic, and cite your sources.
+          </p>
+          <Link
+            href="/guidelines"
+            className="text-sm font-medium hover:underline"
+          >
+            Read full guidelines →
+          </Link>
         </Card>
       </aside>
     </div>
