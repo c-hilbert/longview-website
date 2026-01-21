@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
@@ -14,41 +14,51 @@ interface Comment {
   upvote_count: number
   created_at: string
   depth: number
-  author: {
-    username: string
-  }
+  author: { username: string }
   replies: Comment[]
 }
 
-interface CommentThreadProps {
+interface CommentItemProps {
+  comment: Comment
   postId: string
+  onReply: () => void
 }
 
-function CommentItem({ comment, postId, onReply }: { comment: Comment; postId: string; onReply: () => void }) {
+function CommentItem({ comment, postId, onReply }: CommentItemProps) {
   const [isReplying, setIsReplying] = useState(false)
   const [replyText, setReplyText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const supabase = createClient()
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmitReply = async () => {
     if (!replyText.trim()) return
 
     setIsSubmitting(true)
+    setError(null)
+
+    const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
+      setError('You must be logged in to reply')
       setIsSubmitting(false)
       return
     }
 
-    await supabase.from('comments').insert({
+    const { error: insertError } = await supabase.from('comments').insert({
       body: replyText,
       post_id: postId,
       parent_id: comment.id,
       author_id: user.id,
       depth: comment.depth + 1,
-      path: [], // Will be updated by trigger
+      path: [],
     })
+
+    if (insertError) {
+      setError('Failed to post reply')
+      setIsSubmitting(false)
+      return
+    }
 
     setReplyText('')
     setIsReplying(false)
@@ -57,30 +67,31 @@ function CommentItem({ comment, postId, onReply }: { comment: Comment; postId: s
   }
 
   return (
-    <div className={`${comment.depth > 0 ? 'ml-8 border-l-2 border-neutral-200 pl-4' : ''}`}>
+    <div className={comment.depth > 0 ? 'ml-8 border-l-2 border-stone-200 pl-4' : ''}>
       <div className="flex gap-3 py-4">
         <VoteButton commentId={comment.id} initialCount={comment.upvote_count} />
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 text-sm text-neutral-500 mb-2">
-            <Link href={`/u/${comment.author?.username}`} className="font-medium text-neutral-900 hover:underline">
+          <div className="flex items-center gap-2 text-sm text-stone-500 mb-2">
+            <Link href={`/u/${comment.author?.username}`} className="font-medium text-stone-900 hover:underline">
               {comment.author?.username}
             </Link>
             <span>·</span>
             <span>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</span>
           </div>
 
-          <p className="text-neutral-800 whitespace-pre-wrap">{comment.body}</p>
+          <p className="text-stone-800 whitespace-pre-wrap">{comment.body}</p>
 
           <button
             onClick={() => setIsReplying(!isReplying)}
-            className="mt-2 text-sm text-neutral-500 hover:text-neutral-700"
+            className="mt-2 text-sm text-stone-500 hover:text-stone-700"
           >
             Reply
           </button>
 
           {isReplying && (
             <div className="mt-3 space-y-2">
+              {error && <p className="text-sm text-rose-600">{error}</p>}
               <Textarea
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
@@ -107,40 +118,35 @@ function CommentItem({ comment, postId, onReply }: { comment: Comment; postId: s
   )
 }
 
-export function CommentThread({ postId }: CommentThreadProps) {
+export function CommentThread({ postId }: { postId: string }) {
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
+  const [error, setError] = useState<string | null>(null)
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
+    const supabase = createClient()
     const { data } = await supabase
       .from('comments')
       .select(`
-        id,
-        body,
-        upvote_count,
-        created_at,
-        depth,
-        parent_id,
+        id, body, upvote_count, created_at, depth, parent_id,
         author:profiles!comments_author_id_fkey(username)
       `)
       .eq('post_id', postId)
       .order('created_at', { ascending: true })
 
     if (data) {
-      // Build nested structure
+      // Build nested comment tree from flat list
       const commentMap = new Map<string, Comment>()
       const rootComments: Comment[] = []
 
       data.forEach((c) => {
-        const comment: Comment = {
+        commentMap.set(c.id, {
           ...c,
           author: Array.isArray(c.author) ? c.author[0] : c.author,
           replies: [],
-        }
-        commentMap.set(c.id, comment)
+        })
       })
 
       data.forEach((c) => {
@@ -154,26 +160,29 @@ export function CommentThread({ postId }: CommentThreadProps) {
 
       setComments(rootComments)
     }
-
     setIsLoading(false)
-  }
+  }, [postId])
 
   useEffect(() => {
     fetchComments()
-  }, [postId])
+  }, [fetchComments])
 
   const handleSubmitComment = async () => {
     if (!newComment.trim()) return
 
     setIsSubmitting(true)
+    setError(null)
+
+    const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
+      setError('You must be logged in to comment')
       setIsSubmitting(false)
       return
     }
 
-    await supabase.from('comments').insert({
+    const { error: insertError } = await supabase.from('comments').insert({
       body: newComment,
       post_id: postId,
       author_id: user.id,
@@ -181,18 +190,25 @@ export function CommentThread({ postId }: CommentThreadProps) {
       path: [],
     })
 
+    if (insertError) {
+      setError('Failed to post comment')
+      setIsSubmitting(false)
+      return
+    }
+
     setNewComment('')
     setIsSubmitting(false)
     fetchComments()
   }
 
   if (isLoading) {
-    return <div className="text-center py-4 text-neutral-500">Loading comments...</div>
+    return <div className="text-center py-4 text-stone-500">Loading comments...</div>
   }
 
   return (
     <div className="space-y-4">
       <div className="space-y-3">
+        {error && <p className="text-sm text-rose-600">{error}</p>}
         <Textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
@@ -204,11 +220,11 @@ export function CommentThread({ postId }: CommentThreadProps) {
       </div>
 
       {comments.length === 0 ? (
-        <p className="text-neutral-500 text-center py-4">
+        <p className="text-stone-500 text-center py-4">
           No comments yet. Be the first to share your thoughts.
         </p>
       ) : (
-        <div className="divide-y divide-neutral-200">
+        <div className="divide-y divide-stone-200">
           {comments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} postId={postId} onReply={fetchComments} />
           ))}
