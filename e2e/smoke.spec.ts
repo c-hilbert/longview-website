@@ -98,6 +98,20 @@ test.describe('Auth Flow', () => {
     await expect(googleButton).toBeEnabled()
   })
 
+  test('Google sign in redirects to Google OAuth', async ({ page }) => {
+    await page.goto('/login')
+
+    const googleButton = page.getByText('Continue with Google')
+    await googleButton.click()
+
+    // Should redirect to Google's OAuth page or Supabase auth
+    await page.waitForURL(/accounts\.google\.com|supabase/, { timeout: 10000 })
+
+    // Verify we're on Google's sign-in page
+    const url = page.url()
+    expect(url).toMatch(/accounts\.google\.com|supabase\.co/)
+  })
+
   test('email login form accepts input', async ({ page }) => {
     await page.goto('/login')
 
