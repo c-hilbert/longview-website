@@ -16,8 +16,8 @@ test.describe('Smoke Tests', () => {
     await page.goto('/')
 
     // Check header navigation
-    await expect(page.getByRole('link', { name: 'Discussions' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Archive' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Discussions', exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Archive', exact: true })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Guidelines', exact: true })).toBeVisible()
   })
 
