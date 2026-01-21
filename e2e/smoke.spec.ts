@@ -27,6 +27,13 @@ test.describe('Smoke Tests', () => {
     await expect(page.getByRole('heading', { name: 'Discussions' })).toBeVisible()
   })
 
+  test('discussions page shows posts', async ({ page }) => {
+    await page.goto('/discussions')
+
+    // Should show the welcome post
+    await expect(page.getByText('Welcome to Longview Discussions')).toBeVisible()
+  })
+
   test('archive page loads', async ({ page }) => {
     await page.goto('/archive')
 

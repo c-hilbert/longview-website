@@ -9,9 +9,9 @@ interface PostCardProps {
     upvote_count: number
     comment_count: number
     created_at: string
-    author: {
+    author?: {
       username: string
-    }
+    } | null
     series?: {
       name: string
       slug: string
@@ -52,9 +52,13 @@ export function PostCard({ post }: PostCardProps) {
               <span>·</span>
             </>
           )}
-          <Link href={`/u/${post.author.username}`} className="hover:underline">
-            {post.author.username}
-          </Link>
+          {post.author ? (
+            <Link href={`/u/${post.author.username}`} className="hover:underline">
+              {post.author.username}
+            </Link>
+          ) : (
+            <span>Anonymous</span>
+          )}
           <span>·</span>
           <span>
             {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}

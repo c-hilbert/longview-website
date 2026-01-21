@@ -22,10 +22,10 @@ interface Post {
   upvote_count: number
   comment_count: number
   created_at: string
-  author: {
+  author?: {
     username: string
-  }
-  series: {
+  } | null
+  series?: {
     name: string
     slug: string
   } | null
