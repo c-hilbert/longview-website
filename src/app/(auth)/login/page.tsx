@@ -32,10 +32,21 @@ export default function LoginPage() {
   }
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    })
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      })
+      if (error) {
+        console.error('Google OAuth error:', error)
+        setError(error.message)
+      } else {
+        console.log('OAuth initiated, redirecting...', data)
+      }
+    } catch (e) {
+      console.error('Unexpected error during Google login:', e)
+      setError('Failed to start Google sign-in. Please try again.')
+    }
   }
 
   return (
