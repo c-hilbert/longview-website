@@ -12,6 +12,8 @@ interface SyncResult {
   seriesName: string
   newEpisodes: number
   skippedNoGuid?: number
+  skippedExisting?: number
+  insertErrors?: string[]
   error?: string
 }
 
@@ -58,6 +60,8 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
 
     let newEpisodeCount = 0
     let skippedNoGuid = 0
+    let skippedExisting = 0
+    const insertErrors: string[] = []
 
     for (const episode of episodes) {
       if (!episode.guid) {
@@ -65,39 +69,50 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
         continue
       }
 
-      const { data: existing } = await supabase
+      const { data: existing, error: selectError } = await supabase
         .from('episodes')
         .select('id')
         .eq('guid', episode.guid)
         .eq('series_id', seriesId)
         .maybeSingle()
 
-      if (!existing) {
-        const { error: insertError } = await supabase.from('episodes').insert({
-          series_id: seriesId,
-          title: episode.title,
-          description: episode.description,
-          audio_url: episode.audioUrl,
-          published_at: episode.publishedAt?.toISOString(),
-          duration_seconds: episode.durationSeconds,
-          guid: episode.guid,
-        })
+      if (selectError) {
+        insertErrors.push(`Select error: ${selectError.message}`)
+        continue
+      }
 
-        if (insertError) {
-          console.error(`[RSS Sync] Insert error for "${episode.title}":`, insertError.message)
-        } else {
-          newEpisodeCount++
-        }
+      if (existing) {
+        skippedExisting++
+        continue
+      }
+
+      const { error: insertError } = await supabase.from('episodes').insert({
+        series_id: seriesId,
+        title: episode.title,
+        description: episode.description,
+        audio_url: episode.audioUrl,
+        published_at: episode.publishedAt?.toISOString(),
+        duration_seconds: episode.durationSeconds,
+        guid: episode.guid,
+      })
+
+      if (insertError) {
+        console.error(`[RSS Sync] Insert error for "${episode.title}":`, insertError.message)
+        insertErrors.push(`${episode.title}: ${insertError.message}`)
+      } else {
+        newEpisodeCount++
       }
     }
 
-    console.log(`[RSS Sync] Complete: ${newEpisodeCount} new, ${skippedNoGuid} skipped (no guid)`)
+    console.log(`[RSS Sync] Complete: ${newEpisodeCount} new, ${skippedNoGuid} no guid, ${skippedExisting} existing`)
 
     return {
       seriesId,
       seriesName: series.name,
       newEpisodes: newEpisodeCount,
       skippedNoGuid,
+      skippedExisting,
+      insertErrors: insertErrors.length > 0 ? insertErrors : undefined,
     }
   } catch (error) {
     console.error(`[RSS Sync] Error:`, error)
