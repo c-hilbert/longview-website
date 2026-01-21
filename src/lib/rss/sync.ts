@@ -48,7 +48,10 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
     }
 
     const xmlContent = await response.text()
-    const episodes = await parseRssFeed(xmlContent)
+    const allEpisodes = await parseRssFeed(xmlContent)
+
+    // Limit to 20 most recent episodes to avoid timeout
+    const episodes = allEpisodes.slice(0, 20)
 
     let newEpisodeCount = 0
 
