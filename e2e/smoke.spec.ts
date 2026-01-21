@@ -33,6 +33,13 @@ test.describe('Smoke Tests', () => {
     await expect(page.getByRole('heading', { name: 'Archive' })).toBeVisible()
   })
 
+  test('archive page shows episodes', async ({ page }) => {
+    await page.goto('/archive')
+
+    // Should show at least one episode from the synced podcast
+    await expect(page.getByText('Paul Rosolie').first()).toBeVisible()
+  })
+
   test('guidelines page loads', async ({ page }) => {
     await page.goto('/guidelines')
 
