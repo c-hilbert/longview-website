@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/server'
 import { parseRssFeed } from './parser'
 
 interface Series {
@@ -18,7 +18,7 @@ interface SyncResult {
 }
 
 export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult> {
-  const supabase = await createClient()
+  const supabase = createServiceClient()
 
   const { data: series, error: seriesError } = await supabase
     .from('series')
@@ -126,7 +126,7 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
 }
 
 export async function syncAllSeries(): Promise<SyncResult[]> {
-  const supabase = await createClient()
+  const supabase = createServiceClient()
 
   const { data: allSeries, error } = await supabase
     .from('series')
