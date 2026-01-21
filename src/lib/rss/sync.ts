@@ -11,6 +11,7 @@ interface SyncResult {
   seriesId: string
   seriesName: string
   newEpisodes: number
+  skippedNoGuid?: number
   error?: string
 }
 
