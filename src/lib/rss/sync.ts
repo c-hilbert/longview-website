@@ -53,10 +53,16 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
     // Limit to 20 most recent episodes to avoid timeout
     const episodes = allEpisodes.slice(0, 20)
 
+    console.log(`[RSS Sync] Parsed ${allEpisodes.length} episodes, processing ${episodes.length}`)
+
     let newEpisodeCount = 0
+    let skippedNoGuid = 0
 
     for (const episode of episodes) {
-      if (!episode.guid) continue
+      if (!episode.guid) {
+        skippedNoGuid++
+        continue
+      }
 
       const { data: existing } = await supabase
         .from('episodes')
@@ -76,18 +82,24 @@ export async function syncEpisodesFromRss(seriesId: string): Promise<SyncResult>
           guid: episode.guid,
         })
 
-        if (!insertError) {
+        if (insertError) {
+          console.error(`[RSS Sync] Insert error for "${episode.title}":`, insertError.message)
+        } else {
           newEpisodeCount++
         }
       }
     }
 
+    console.log(`[RSS Sync] Complete: ${newEpisodeCount} new, ${skippedNoGuid} skipped (no guid)`)
+
     return {
       seriesId,
       seriesName: series.name,
       newEpisodes: newEpisodeCount,
+      skippedNoGuid,
     }
   } catch (error) {
+    console.error(`[RSS Sync] Error:`, error)
     return {
       seriesId,
       seriesName: series.name,
