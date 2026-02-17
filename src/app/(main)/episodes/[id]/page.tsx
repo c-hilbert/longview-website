@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { createClient } from '@/lib/supabase/server'
 import { Card } from '@/components/ui/Card'
-import { TranscriptViewer } from '@/components/features/episodes'
+import { TranscriptViewer, AudioPlayer } from '@/components/features/episodes'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -75,14 +75,12 @@ export default async function EpisodePage({ params }: PageProps) {
 
         {episode.audio_url && (
           <div className="mb-6">
-            <audio
-              controls
-              className="w-full rounded-[var(--radius-md)]"
-              preload="metadata"
-            >
-              <source src={episode.audio_url} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
+            <AudioPlayer 
+              src={episode.audio_url} 
+              title={episode.title}
+              skipBackSeconds={15}
+              skipForwardSeconds={30}
+            />
           </div>
         )}
 
