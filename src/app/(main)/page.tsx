@@ -1,93 +1,95 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
-import { PostCard } from '@/components/features/discussions/PostCard'
-import { LatestEpisodesSidebar } from '@/components/features/episodes'
+import { HeroSection, ShowCard, MissionSection, TeamSection } from '@/components/features/home'
 
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const { data: posts } = await supabase
-    .from('posts')
-    .select(`
-      id,
-      title,
-      slug,
-      upvote_count,
-      comment_count,
-      created_at,
-      author:profiles!posts_author_id_fkey(username),
-      series:series(name, slug)
-    `)
-    .order('created_at', { ascending: false })
-    .limit(10)
-
+  // Fetch latest episodes for the sidebar (optional)
   const { data: episodes } = await supabase
     .from('episodes')
-    .select('id, title, published_at')
+    .select('id, title, published_at, series:series(name, slug)')
     .order('published_at', { ascending: false })
-    .limit(5)
-
-  const formattedPosts = (posts || []).map((post) => ({
-    ...post,
-    author: Array.isArray(post.author) ? post.author[0] : post.author,
-    series: Array.isArray(post.series) ? post.series[0] : post.series,
-  }))
+    .limit(3)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-2 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Discussions</h1>
-          <Link
-            href="/discussions/new"
-            className="px-4 py-2 bg-stone-900 text-white text-sm rounded-md hover:bg-stone-800"
-          >
-            New Discussion
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Featured Shows */}
+      <section className="py-16 md:py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-foreground)] mb-12 tracking-tight text-center">
+            Our Shows
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ShowCard
+              title="The Last Invention"
+              tagline="An 8-part investigative series"
+              description="A deep dive into artificial intelligence, exploring its potential as humanity's last invention and the profound questions it raises about our future."
+              slug="the-last-invention"
+              spotifyUrl="https://open.spotify.com/show/placeholder"
+              appleUrl="https://podcasts.apple.com/placeholder"
+              youtubeUrl="https://youtube.com/placeholder"
+            />
+            
+            <ShowCard
+              title="The Reflector"
+              tagline="Weekly conversations"
+              description="Thoughtful discussions about the stories and ideas that matter. Each week, we reflect on the forces shaping our world and what they mean for the future."
+              slug="reflector"
+              spotifyUrl="https://open.spotify.com/show/placeholder"
+              appleUrl="https://podcasts.apple.com/placeholder"
+              youtubeUrl="https://youtube.com/placeholder"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Statement */}
+      <MissionSection />
+
+      {/* Team */}
+      <TeamSection />
+
+      {/* Community / Discussions CTA */}
+      <section className="py-16 md:py-24 px-6 bg-[var(--color-card-bg)]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-foreground)] mb-6 tracking-tight">
+            Join the Conversation
+          </h2>
+          <p className="text-lg text-[var(--color-muted)] mb-8 max-w-2xl mx-auto">
+            Connect with fellow listeners, discuss episodes, and share your thoughts in our community.
+          </p>
+          <Link href="/discussions">
+            <Button size="lg">Visit Discussions</Button>
           </Link>
         </div>
+      </section>
 
-        {formattedPosts.length === 0 ? (
-          <Card>
-            <p className="text-stone-600 text-center py-8">
-              No discussions yet. Be the first to start a conversation.
-            </p>
-          </Card>
-        ) : (
-          <Card padding="none">
-            <div className="divide-y divide-stone-200">
-              {formattedPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
-          </Card>
-        )}
-      </div>
-
-      <aside className="space-y-6">
-        <Card>
-          <h2 className="font-semibold mb-4">About Longview</h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
-            A community hub for discussing long-form journalism, investigative reporting,
-            and podcast episodes from the Longview network.
+      {/* Email Signup (placeholder) */}
+      <section className="py-16 px-6">
+        <div className="max-w-md mx-auto text-center">
+          <h3 className="text-2xl font-bold text-[var(--color-foreground)] mb-4">
+            Stay Updated
+          </h3>
+          <p className="text-[var(--color-muted)] mb-6">
+            Get notified when new episodes are released.
           </p>
-        </Card>
-
-        <LatestEpisodesSidebar episodes={episodes || []} />
-
-        <Card>
-          <h2 className="font-semibold mb-3">Community Guidelines</h2>
-          <p className="text-sm text-stone-600 mb-4">
-            Be respectful, stay on topic, and cite your sources.
-          </p>
-          <Link
-            href="/guidelines"
-            className="text-sm font-medium hover:underline"
-          >
-            Read full guidelines →
-          </Link>
-        </Card>
-      </aside>
+          <form className="flex gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 border-2 border-[var(--color-border)] rounded focus:outline-none focus:border-[var(--color-primary)]"
+            />
+            <Button type="submit">Subscribe</Button>
+          </form>
+        </div>
+      </section>
     </div>
   )
 }
