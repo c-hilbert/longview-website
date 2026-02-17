@@ -29,7 +29,7 @@ describe('Textarea', () => {
   it('applies error styling when error prop is set', () => {
     render(<Textarea error="Error" data-testid="error-textarea" />)
     const textarea = screen.getByTestId('error-textarea')
-    expect(textarea).toHaveClass('border-rose-400')
+    expect(textarea).toHaveClass('border-red-500')
   })
 
   it('is disabled when disabled prop is true', () => {

@@ -29,13 +29,13 @@ describe('Input', () => {
   it('applies error styling when error prop is set', () => {
     render(<Input error="Error" data-testid="error-input" />)
     const input = screen.getByTestId('error-input')
-    expect(input).toHaveClass('border-rose-400')
+    expect(input).toHaveClass('border-red-500')
   })
 
   it('applies normal border when no error', () => {
     render(<Input data-testid="normal-input" />)
     const input = screen.getByTestId('normal-input')
-    expect(input).toHaveClass('border-stone-300')
+    expect(input).toHaveClass('border-[var(--color-border)]')
   })
 
   it('is disabled when disabled prop is true', () => {
