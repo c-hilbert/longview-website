@@ -81,17 +81,19 @@ export default function DiscussionsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Discussions</h1>
+      <header className="flex items-center justify-between pb-4 border-b border-[var(--border-light)]">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] tracking-[-0.02em]">
+          Discussions
+        </h1>
         <Link
           href="/discussions/new"
-          className="px-4 py-2 bg-neutral-900 text-white text-sm rounded-md hover:bg-neutral-800"
+          className="px-5 py-2.5 bg-[var(--ink-black)] text-[var(--bg-primary)] text-sm font-medium rounded-[var(--radius-md)] hover:bg-[var(--text-secondary)] transition-colors duration-200 tracking-[-0.01em]"
         >
           New Discussion
         </Link>
-      </div>
+      </header>
 
-      <Card padding="none">
+      <Card padding="none" className="overflow-hidden">
         <div className="px-4 pt-2">
           <Tabs
             tabs={tabs}
@@ -101,13 +103,15 @@ export default function DiscussionsPage() {
         </div>
 
         {isLoading ? (
-          <div className="p-8 text-center text-neutral-500">Loading...</div>
+          <div className="p-8 text-center text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
+            Loading...
+          </div>
         ) : posts.length === 0 ? (
-          <div className="p-8 text-center text-neutral-500">
+          <div className="p-8 text-center text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
             No discussions yet. Be the first to start a conversation.
           </div>
         ) : (
-          <div>
+          <div className="divide-y divide-[var(--border-light)]">
             {posts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}

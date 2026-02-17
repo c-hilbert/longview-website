@@ -21,50 +21,62 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <div className="flex gap-4 p-4 border-b border-neutral-200 last:border-b-0">
+    <article className="flex gap-4 p-5 border-b border-[var(--border-light)] last:border-b-0 hover:bg-[var(--bg-secondary)]/50 transition-colors duration-150">
+      {/* Vote count */}
       <div className="flex flex-col items-center gap-1 min-w-[48px]">
-        <span className="text-lg font-medium">{post.upvote_count}</span>
-        <span className="text-xs text-neutral-500">votes</span>
+        <span className="text-base font-semibold text-[var(--text-primary)] font-[family-name:var(--font-inter)]">
+          {post.upvote_count}
+        </span>
+        <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider">votes</span>
       </div>
 
+      {/* Comment count */}
       <div className="flex flex-col items-center gap-1 min-w-[48px]">
-        <span className="text-lg font-medium">{post.comment_count}</span>
-        <span className="text-xs text-neutral-500">replies</span>
+        <span className="text-base font-semibold text-[var(--text-primary)] font-[family-name:var(--font-inter)]">
+          {post.comment_count}
+        </span>
+        <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider">replies</span>
       </div>
 
+      {/* Content */}
       <div className="flex-1 min-w-0">
-        <Link
-          href={`/discussions/${post.slug}`}
-          className="text-base font-medium hover:text-neutral-600 line-clamp-2"
-        >
-          {post.title}
-        </Link>
+        <h3 className="font-[family-name:var(--font-source-serif)] font-semibold text-lg leading-[var(--leading-snug)]">
+          <Link
+            href={`/discussions/${post.slug}`}
+            className="text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition-colors duration-150 line-clamp-2"
+          >
+            {post.title}
+          </Link>
+        </h3>
 
-        <div className="mt-1.5 flex items-center gap-2 text-sm text-neutral-500">
+        <div className="mt-2 flex items-center gap-2 text-sm text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
           {post.series && (
             <>
               <Link
                 href={`/series/${post.series.slug}`}
-                className="text-red-600 hover:underline"
+                className="text-[var(--accent-primary)] hover:text-[var(--accent-hover)] font-medium transition-colors duration-150"
               >
                 {post.series.name}
               </Link>
-              <span>·</span>
+              <span className="text-[var(--border-dark)]">·</span>
             </>
           )}
           {post.author ? (
-            <Link href={`/u/${post.author.username}`} className="hover:underline">
+            <Link 
+              href={`/u/${post.author.username}`} 
+              className="hover:text-[var(--text-primary)] transition-colors duration-150"
+            >
               {post.author.username}
             </Link>
           ) : (
             <span>Anonymous</span>
           )}
-          <span>·</span>
-          <span>
+          <span className="text-[var(--border-dark)]">·</span>
+          <time dateTime={post.created_at}>
             {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-          </span>
+          </time>
         </div>
       </div>
-    </div>
+    </article>
   )
 }

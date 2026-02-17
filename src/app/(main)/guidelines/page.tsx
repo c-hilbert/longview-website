@@ -3,9 +3,11 @@ import { Card } from '@/components/ui/Card'
 export default function GuidelinesPage() {
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">Community Guidelines</h1>
+      <h1 className="font-[family-name:var(--font-playfair)] text-4xl font-semibold text-[var(--ink-black)] mb-8 tracking-[-0.02em]">
+        Community Guidelines
+      </h1>
 
-      <Card className="prose prose-neutral max-w-none">
+      <Card className="prose-editorial">
         <h2>Welcome to Longview</h2>
         <p>
           This community is a place for thoughtful discussion about long-form journalism,

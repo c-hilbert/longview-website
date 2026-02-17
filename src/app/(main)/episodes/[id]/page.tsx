@@ -50,20 +50,24 @@ export default async function EpisodePage({ params }: PageProps) {
       <Card>
         {series && (
           <Link
-            href={`/archive`}
-            className="inline-block text-sm text-rose-600 hover:underline mb-2"
+            href="/archive"
+            className="inline-block text-sm font-medium text-[var(--accent-primary)] hover:text-[var(--accent-hover)] mb-3 font-[family-name:var(--font-inter)] transition-colors duration-150"
           >
             ← {series.name}
           </Link>
         )}
 
-        <h1 className="text-2xl font-semibold mb-4">{episode.title}</h1>
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)] mb-4 tracking-[-0.02em] leading-[var(--leading-tight)]">
+          {episode.title}
+        </h1>
 
-        <div className="flex items-center gap-3 text-sm text-stone-500 mb-6">
-          <span>{format(new Date(episode.published_at), 'MMMM d, yyyy')}</span>
+        <div className="flex items-center gap-3 text-sm text-[var(--text-muted)] mb-6 font-[family-name:var(--font-inter)]">
+          <time dateTime={episode.published_at}>
+            {format(new Date(episode.published_at), 'MMMM d, yyyy')}
+          </time>
           {episode.duration_seconds && (
             <>
-              <span>·</span>
+              <span className="text-[var(--border-dark)]">·</span>
               <span>{formatDuration(episode.duration_seconds)}</span>
             </>
           )}
@@ -73,7 +77,7 @@ export default async function EpisodePage({ params }: PageProps) {
           <div className="mb-6">
             <audio
               controls
-              className="w-full"
+              className="w-full rounded-[var(--radius-md)]"
               preload="metadata"
             >
               <source src={episode.audio_url} type="audio/mpeg" />
@@ -83,8 +87,10 @@ export default async function EpisodePage({ params }: PageProps) {
         )}
 
         {episode.description && (
-          <div className="prose prose-stone max-w-none">
-            <p className="whitespace-pre-wrap">{episode.description}</p>
+          <div className="prose-editorial">
+            <p className="whitespace-pre-wrap leading-[var(--leading-relaxed)] font-[family-name:var(--font-inter)] text-[var(--text-secondary)]">
+              {episode.description}
+            </p>
           </div>
         )}
       </Card>
@@ -92,13 +98,15 @@ export default async function EpisodePage({ params }: PageProps) {
       <TranscriptViewer transcript={episode.transcript} />
 
       <Card>
-        <h2 className="text-lg font-semibold mb-4">Discussion</h2>
-        <p className="text-sm text-stone-500 mb-4">
+        <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)] mb-3 tracking-[-0.01em]">
+          Discussion
+        </h2>
+        <p className="text-sm text-[var(--text-tertiary)] mb-5 font-[family-name:var(--font-inter)]">
           Want to discuss this episode? Start a conversation in the community.
         </p>
         <Link
           href={`/discussions/new?episode=${episode.id}`}
-          className="inline-block px-4 py-2 bg-stone-900 text-white text-sm rounded-md hover:bg-stone-800"
+          className="inline-block px-5 py-2.5 bg-[var(--ink-black)] text-[var(--bg-primary)] text-sm font-medium rounded-[var(--radius-md)] hover:bg-[var(--text-secondary)] transition-colors duration-200 tracking-[-0.01em]"
         >
           Start Discussion
         </Link>

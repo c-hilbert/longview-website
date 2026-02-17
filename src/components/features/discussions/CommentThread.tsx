@@ -67,36 +67,46 @@ function CommentItem({ comment, postId, onReply }: CommentItemProps) {
   }
 
   return (
-    <div className={comment.depth > 0 ? 'ml-8 border-l-2 border-stone-200 pl-4' : ''}>
+    <div className={comment.depth > 0 ? 'ml-6 sm:ml-8 border-l-2 border-[var(--border-light)] pl-4 sm:pl-5' : ''}>
       <div className="flex gap-3 py-4">
         <VoteButton commentId={comment.id} initialCount={comment.upvote_count} />
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 text-sm text-stone-500 mb-2">
-            <Link href={`/u/${comment.author?.username}`} className="font-medium text-stone-900 hover:underline">
+          <div className="flex items-center gap-2 text-sm mb-2 font-[family-name:var(--font-inter)]">
+            <Link 
+              href={`/u/${comment.author?.username}`} 
+              className="font-semibold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition-colors duration-150"
+            >
               {comment.author?.username}
             </Link>
-            <span>·</span>
-            <span>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</span>
+            <span className="text-[var(--border-dark)]">·</span>
+            <time 
+              dateTime={comment.created_at}
+              className="text-[var(--text-muted)]"
+            >
+              {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
+            </time>
           </div>
 
-          <p className="text-stone-800 whitespace-pre-wrap">{comment.body}</p>
+          <p className="text-[var(--text-secondary)] whitespace-pre-wrap leading-[var(--leading-relaxed)] font-[family-name:var(--font-inter)]">
+            {comment.body}
+          </p>
 
           <button
             onClick={() => setIsReplying(!isReplying)}
-            className="mt-2 text-sm text-stone-500 hover:text-stone-700"
+            className="mt-3 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-primary)] transition-colors duration-150 font-[family-name:var(--font-inter)]"
           >
             Reply
           </button>
 
           {isReplying && (
-            <div className="mt-3 space-y-2">
-              {error && <p className="text-sm text-rose-600">{error}</p>}
+            <div className="mt-4 space-y-3">
+              {error && <p className="text-sm text-rose-600 font-medium">{error}</p>}
               <Textarea
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Write a reply..."
-                className="min-h-[80px]"
+                className="min-h-[100px]"
               />
               <div className="flex gap-2">
                 <Button size="sm" onClick={handleSubmitReply} disabled={isSubmitting}>
@@ -202,13 +212,17 @@ export function CommentThread({ postId }: { postId: string }) {
   }
 
   if (isLoading) {
-    return <div className="text-center py-4 text-stone-500">Loading comments...</div>
+    return (
+      <div className="text-center py-6 text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
+        Loading comments...
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="space-y-3">
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {error && <p className="text-sm text-rose-600 font-medium">{error}</p>}
         <Textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
@@ -220,11 +234,11 @@ export function CommentThread({ postId }: { postId: string }) {
       </div>
 
       {comments.length === 0 ? (
-        <p className="text-stone-500 text-center py-4">
+        <p className="text-[var(--text-muted)] text-center py-6 font-[family-name:var(--font-inter)]">
           No comments yet. Be the first to share your thoughts.
         </p>
       ) : (
-        <div className="divide-y divide-stone-200">
+        <div className="divide-y divide-[var(--border-light)]">
           {comments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} postId={postId} onReply={fetchComments} />
           ))}

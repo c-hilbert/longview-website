@@ -46,28 +46,32 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--bg-primary)]">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="w-10 h-10 bg-rose-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">L</span>
+          <Link href="/" className="inline-flex items-center gap-2 mb-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)] focus-visible:ring-offset-2 rounded-[var(--radius-md)]">
+            <span className="w-10 h-10 bg-[var(--accent-primary)] rounded-[var(--radius-md)] flex items-center justify-center transition-colors duration-200 hover:bg-[var(--accent-hover)]">
+              <span className="text-white font-bold font-[family-name:var(--font-playfair)] text-lg">L</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-semibold mb-2">Create an account</h1>
-          <p className="text-stone-500">Join the Longview community</p>
+          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] mb-3 tracking-[-0.02em]">
+            Create an account
+          </h1>
+          <p className="text-[var(--text-tertiary)] font-[family-name:var(--font-inter)]">
+            Join the Longview community
+          </p>
         </div>
 
-        <div className="bg-white p-8 rounded-xl border border-stone-200/80 shadow-sm">
+        <div className="bg-[var(--bg-elevated)] p-8 rounded-[var(--radius-md)] border border-[var(--border-light)] shadow-[var(--shadow-sm)]">
           {error && (
-            <div className="mb-6 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-lg">
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-[var(--radius-md)] font-[family-name:var(--font-inter)]">
               {error}
             </div>
           )}
 
           <button
             onClick={handleGoogleSignup}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 hover:border-stone-400 transition-colors mb-6"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-[var(--border-medium)] rounded-[var(--radius-md)] hover:bg-[var(--bg-secondary)] hover:border-[var(--border-dark)] transition-all duration-200 mb-6 font-[family-name:var(--font-inter)] text-sm font-medium text-[var(--text-primary)]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -80,10 +84,10 @@ export default function SignupPage() {
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-stone-200" />
+              <div className="w-full border-t border-[var(--border-light)]" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-3 bg-white text-stone-400">or</span>
+              <span className="px-3 bg-[var(--bg-elevated)] text-[var(--text-muted)] font-[family-name:var(--font-inter)]">or</span>
             </div>
           </div>
 
@@ -116,9 +120,9 @@ export default function SignupPage() {
           </form>
         </div>
 
-        <p className="mt-6 text-center text-sm text-stone-500">
+        <p className="mt-6 text-center text-sm text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-stone-900 hover:underline">
+          <Link href="/login" className="font-semibold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition-colors duration-150">
             Sign in
           </Link>
         </p>

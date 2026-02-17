@@ -36,26 +36,29 @@ export default async function HomePage() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Main Content */}
       <div className="lg:col-span-2 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Discussions</h1>
+        <header className="flex items-center justify-between pb-4 border-b border-[var(--border-light)]">
+          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] tracking-[-0.02em]">
+            Discussions
+          </h1>
           <Link
             href="/discussions/new"
-            className="px-4 py-2 bg-stone-900 text-white text-sm rounded-md hover:bg-stone-800"
+            className="px-5 py-2.5 bg-[var(--ink-black)] text-[var(--bg-primary)] text-sm font-medium rounded-[var(--radius-md)] hover:bg-[var(--text-secondary)] transition-colors duration-200 tracking-[-0.01em]"
           >
             New Discussion
           </Link>
-        </div>
+        </header>
 
         {formattedPosts.length === 0 ? (
-          <Card>
-            <p className="text-stone-600 text-center py-8">
+          <Card variant="subtle">
+            <p className="text-[var(--text-tertiary)] text-center py-10 font-[family-name:var(--font-inter)]">
               No discussions yet. Be the first to start a conversation.
             </p>
           </Card>
         ) : (
-          <Card padding="none">
-            <div className="divide-y divide-stone-200">
+          <Card padding="none" className="overflow-hidden">
+            <div className="divide-y divide-[var(--border-light)]">
               {formattedPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -64,10 +67,13 @@ export default async function HomePage() {
         )}
       </div>
 
+      {/* Sidebar */}
       <aside className="space-y-6">
         <Card>
-          <h2 className="font-semibold mb-4">About Longview</h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
+          <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)] mb-4">
+            About Longview
+          </h2>
+          <p className="text-sm text-[var(--text-tertiary)] leading-[var(--leading-relaxed)] font-[family-name:var(--font-inter)]">
             A community hub for discussing long-form journalism, investigative reporting,
             and podcast episodes from the Longview network.
           </p>
@@ -76,13 +82,15 @@ export default async function HomePage() {
         <LatestEpisodesSidebar episodes={episodes || []} />
 
         <Card>
-          <h2 className="font-semibold mb-3">Community Guidelines</h2>
-          <p className="text-sm text-stone-600 mb-4">
+          <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)] mb-3">
+            Community Guidelines
+          </h2>
+          <p className="text-sm text-[var(--text-tertiary)] mb-4 font-[family-name:var(--font-inter)] leading-relaxed">
             Be respectful, stay on topic, and cite your sources.
           </p>
           <Link
             href="/guidelines"
-            className="text-sm font-medium hover:underline"
+            className="text-sm font-medium text-[var(--accent-primary)] hover:text-[var(--accent-hover)] transition-colors duration-150 font-[family-name:var(--font-inter)]"
           >
             Read full guidelines →
           </Link>
