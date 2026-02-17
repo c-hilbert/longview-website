@@ -11,17 +11,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       className={clsx(
-        'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200',
+        'inline-flex items-center justify-center font-medium rounded transition-all duration-200',
         'disabled:opacity-50 disabled:cursor-not-allowed',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2',
         {
-          'bg-stone-900 text-white hover:bg-stone-800 shadow-sm': variant === 'primary',
-          'bg-white border border-stone-300 hover:bg-stone-50 hover:border-stone-400': variant === 'secondary',
-          'hover:bg-stone-100': variant === 'ghost',
+          // Primary: Editorial Red
+          'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] focus:ring-[var(--color-primary)] shadow-sm': variant === 'primary',
+          // Secondary: Clean outlined
+          'bg-white border-2 border-[var(--color-foreground)] text-[var(--color-foreground)] hover:bg-[var(--color-foreground)] hover:text-white focus:ring-[var(--color-foreground)]': variant === 'secondary',
+          // Ghost: Subtle hover
+          'text-[var(--color-foreground)] hover:bg-[var(--color-hover-bg)] focus:ring-[var(--color-muted)]': variant === 'ghost',
         },
         {
           'px-3 py-1.5 text-sm': size === 'sm',
-          'px-4 py-2.5 text-sm': size === 'md',
-          'px-6 py-3': size === 'lg',
+          'px-5 py-2.5 text-base': size === 'md',
+          'px-7 py-3.5 text-lg': size === 'lg',
         },
         className
       )}
