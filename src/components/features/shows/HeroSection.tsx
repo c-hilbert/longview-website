@@ -11,13 +11,14 @@ export function HeroSection() {
         
         {/* Main Headline */}
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl lg:text-6xl font-semibold text-[var(--ink-black)] leading-[1.1] tracking-[-0.02em] mb-6">
-          Context is everything
+          How did we get here?
         </h1>
         
         {/* Subheadline */}
         <p className="text-lg sm:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mb-8 font-[family-name:var(--font-source-serif)]">
-          Long-form interviews that go deeper. We bring you conversations with scientists, 
-          technologists, and thinkers shaping our future—without the noise.
+          Longview is for the curious and open minded. We investigate the surprising stories 
+          behind the most fascinating debates and pressing issues facing society today. 
+          By looking into how we got here, we aim to understand more deeply where we may be headed next.
         </p>
         
         {/* Platform Links */}

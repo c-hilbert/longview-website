@@ -9,23 +9,24 @@ export function MissionSection() {
         </h2>
         
         <p className="text-lg sm:text-xl text-[var(--text-secondary)] leading-relaxed font-[family-name:var(--font-source-serif)] mb-8">
-          In an age of fragmented attention, we believe in the power of long-form conversation. 
-          Each episode is an invitation to slow down, think deeply, and engage with ideas that matter.
+          Longview is politically independent. We don't favor any party, movement, or ideology. 
+          We strive to always be fair‑minded, engaging respectfully with all viewpoints — popular or not — 
+          without cheap shots or dismissive rhetoric.
         </p>
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
           {[
             {
-              title: 'Depth Over Speed',
-              description: 'Conversations that take time to explore ideas fully, not rushed soundbites.'
+              title: 'Intellectual Humility',
+              description: 'We practice transparency about what we know and, just as importantly, what we don\'t.'
             },
             {
-              title: 'Expert Voices',
-              description: 'Access to leading thinkers, researchers, and innovators across fields.'
+              title: 'Opposing Perspectives',
+              description: 'We believe opposing views are essential to converge on truth — the tension sharpens insights and challenges blind spots.'
             },
             {
-              title: 'Curated Quality',
-              description: 'Every episode meticulously produced and edited for the best experience.'
+              title: 'Prizing Curiosity',
+              description: 'The lifeblood of our work — driving us to question, explore, and look beyond the surface to uncover what others may miss.'
             }
           ].map((item, index) => (
             <Card key={index} variant="subtle" className="p-6 text-left">

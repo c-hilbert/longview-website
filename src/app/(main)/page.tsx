@@ -71,7 +71,7 @@ export default async function HomePage() {
               Featured Shows
             </h2>
             <p className="text-[var(--text-tertiary)] font-[family-name:var(--font-inter)]">
-              In-depth conversations on science, technology, and the future
+              Deeply-reported, carefully-crafted stories about the most pressing and interesting issues in our world
             </p>
           </div>
 

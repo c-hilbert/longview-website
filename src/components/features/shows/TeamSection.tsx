@@ -2,16 +2,28 @@ import { Card } from '@/components/ui/Card'
 
 const TEAM_MEMBERS = [
   {
-    name: 'Dylan J. Clarke',
-    role: 'Host & Creator',
-    bio: 'Writer and interviewer exploring the intersection of technology, science, and society.',
-    initial: 'D'
+    name: 'Andy Mills',
+    role: 'Editor in Chief',
+    bio: 'Co-founder and editor leading Longview\'s investigative journalism.',
+    initial: 'A'
   },
   {
-    name: 'The Longview Team',
-    role: 'Production',
-    bio: 'A dedicated team of producers, researchers, and editors committed to quality storytelling.',
-    initial: 'T'
+    name: 'Matthew Boll',
+    role: 'Editor in Chief',
+    bio: 'Co-founder and editor shaping Longview\'s editorial vision.',
+    initial: 'M'
+  },
+  {
+    name: 'Simon Adler',
+    role: 'Head of Studio',
+    bio: 'Overseeing production and studio operations.',
+    initial: 'S'
+  },
+  {
+    name: 'Carmen Hilbert',
+    role: 'Research Producer',
+    bio: 'Research and production for investigative stories.',
+    initial: 'C'
   }
 ]
 
