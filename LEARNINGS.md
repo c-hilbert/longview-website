@@ -56,4 +56,31 @@
 
 ---
 
-_Issue work logs will be appended below as they complete._
+## Issue #5: Design System Overhaul — Feb 16, 2026
+
+**What worked:**
+- Using CSS variables for color system makes updates easy and consistent
+- Editorial design pattern: red accent (#c8102e), clean black/white, generous whitespace
+- Component-level design tokens (--color-primary, --color-foreground, etc.) ensure consistency
+- Test-driven approach: updated tests after component changes, caught class name mismatches early
+
+**Gotchas:**
+- Both Claude Code and Codex hit auth issues (OAuth and API key), had to work manually
+- Tests check for specific Tailwind classes, need to update when refactoring styling
+- CSS variable syntax in Tailwind: use bracket notation `bg-[var(--color-primary)]`
+
+**Codebase notes:**
+- Design system in: `src/app/globals.css` (root CSS variables)
+- UI components: `src/components/ui/*.tsx` (Button, Card, Input, Textarea)
+- Component tests: `src/components/ui/__tests__/*.test.tsx`
+- Color palette: 
+  - Primary: `#c8102e` (editorial red)
+  - Foreground: `#0a0a0a` (near-black)
+  - Background: `#ffffff` (pure white)
+  - Card: `#fafafa` (subtle off-white)
+
+**Decisions:**
+- Chose brighter editorial red (#c8102e) over original burgundy (#8b2942) for more impact
+- Pure white background instead of warm off-white for cleaner editorial feel
+- Border width increased to 2px for stronger definition
+- Focus rings use red tint instead of generic gray
