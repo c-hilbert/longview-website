@@ -1,12 +1,28 @@
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { Card } from '@/components/ui/Card'
-import { PostCard } from '@/components/features/discussions/PostCard'
+import { HeroSection } from '@/components/features/shows/HeroSection'
+import { ShowCard } from '@/components/features/shows/ShowCard'
+import { MissionSection } from '@/components/features/shows/MissionSection'
+import { TeamSection } from '@/components/features/shows/TeamSection'
+import { EmailSignup } from '@/components/features/shows/EmailSignup'
+import { CommunitySection } from '@/components/features/shows/CommunitySection'
 import { LatestEpisodesSidebar } from '@/components/features/episodes'
 
 export default async function HomePage() {
   const supabase = await createClient()
 
+  // Fetch series (shows) with episode counts
+  const { data: series } = await supabase
+    .from('series')
+    .select(`
+      id,
+      name,
+      slug,
+      description,
+      episodes:episodes(count)
+    `)
+    .order('name', { ascending: true })
+
+  // Fetch recent posts for community section
   const { data: posts } = await supabase
     .from('posts')
     .select(`
@@ -20,14 +36,22 @@ export default async function HomePage() {
       series:series(name, slug)
     `)
     .order('created_at', { ascending: false })
-    .limit(10)
+    .limit(6)
 
+  // Fetch latest episodes for sidebar
   const { data: episodes } = await supabase
     .from('episodes')
     .select('id, title, published_at')
     .order('published_at', { ascending: false })
     .limit(5)
 
+  // Format series data
+  const shows = (series || []).map((s) => ({
+    ...s,
+    episodeCount: Array.isArray(s.episodes) ? s.episodes[0]?.count || 0 : 0
+  }))
+
+  // Format posts data
   const formattedPosts = (posts || []).map((post) => ({
     ...post,
     author: Array.isArray(post.author) ? post.author[0] : post.author,
@@ -35,67 +59,68 @@ export default async function HomePage() {
   }))
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Main Content */}
-      <div className="lg:col-span-2 space-y-6">
-        <header className="flex items-center justify-between pb-4 border-b border-[var(--border-light)]">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] tracking-[-0.02em]">
-            Discussions
-          </h1>
-          <Link
-            href="/discussions/new"
-            className="px-5 py-2.5 bg-[var(--ink-black)] text-[var(--bg-primary)] text-sm font-medium rounded-[var(--radius-md)] hover:bg-[var(--text-secondary)] transition-colors duration-200 tracking-[-0.01em]"
-          >
-            New Discussion
-          </Link>
-        </header>
+    <div className="space-y-0">
+      {/* Hero Section */}
+      <HeroSection />
 
-        {formattedPosts.length === 0 ? (
-          <Card variant="subtle">
-            <p className="text-[var(--text-tertiary)] text-center py-10 font-[family-name:var(--font-inter)]">
-              No discussions yet. Be the first to start a conversation.
+      {/* Featured Shows Section */}
+      {shows.length > 0 && (
+        <section className="py-16 sm:py-20 border-t border-[var(--border-light)]">
+          <div className="mb-10">
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)] mb-3">
+              Featured Shows
+            </h2>
+            <p className="text-[var(--text-tertiary)] font-[family-name:var(--font-inter)]">
+              In-depth conversations on science, technology, and the future
             </p>
-          </Card>
-        ) : (
-          <Card padding="none" className="overflow-hidden">
-            <div className="divide-y divide-[var(--border-light)]">
-              {formattedPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
-          </Card>
-        )}
-      </div>
+          </div>
 
-      {/* Sidebar */}
-      <aside className="space-y-6">
-        <Card>
-          <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)] mb-4">
-            About Longview
-          </h2>
-          <p className="text-sm text-[var(--text-tertiary)] leading-[var(--leading-relaxed)] font-[family-name:var(--font-inter)]">
-            A community hub for discussing long-form journalism, investigative reporting,
-            and podcast episodes from the Longview network.
-          </p>
-        </Card>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {shows.map((show) => (
+              <ShowCard 
+                key={show.id} 
+                show={{
+                  id: show.id,
+                  name: show.name,
+                  slug: show.slug,
+                  description: show.description,
+                  episodeCount: show.episodeCount
+                }} 
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
-        <LatestEpisodesSidebar episodes={episodes || []} />
+      {/* Mission Section */}
+      <MissionSection />
 
-        <Card>
-          <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)] mb-3">
-            Community Guidelines
-          </h2>
-          <p className="text-sm text-[var(--text-tertiary)] mb-4 font-[family-name:var(--font-inter)] leading-relaxed">
-            Be respectful, stay on topic, and cite your sources.
-          </p>
-          <Link
-            href="/guidelines"
-            className="text-sm font-medium text-[var(--accent-primary)] hover:text-[var(--accent-hover)] transition-colors duration-150 font-[family-name:var(--font-inter)]"
-          >
-            Read full guidelines →
-          </Link>
-        </Card>
-      </aside>
+      {/* Two Column Layout: Latest Episodes & Email Signup */}
+      <section className="py-16 sm:py-20 border-t border-[var(--border-light)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Latest Episodes */}
+          <div>
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)] mb-6">
+              Latest Episodes
+            </h2>
+            <LatestEpisodesSidebar episodes={episodes || []} />
+          </div>
+
+          {/* Email Signup */}
+          <div>
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)] mb-6">
+              Never Miss an Episode
+            </h2>
+            <EmailSignup />
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <TeamSection />
+
+      {/* Community Discussions */}
+      <CommunitySection posts={formattedPosts} />
     </div>
   )
 }

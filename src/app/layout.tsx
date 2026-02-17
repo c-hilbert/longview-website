@@ -30,8 +30,14 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Longview | In-Depth Podcast Discussions",
-  description: "A community hub for discussing long-form journalism, investigative reporting, and podcast episodes from the Longview network.",
+  title: "Longview | Context is Everything",
+  description: "Long-form interviews with scientists, technologists, and thinkers shaping our future. The Last Invention, Reflector, and more. Listen on Spotify, Apple Podcasts, and YouTube.",
+  keywords: ["podcast", "interviews", "science", "technology", "The Last Invention", "Reflector", "long-form"],
+  openGraph: {
+    title: "Longview | Context is Everything",
+    description: "Long-form interviews with scientists, technologists, and thinkers shaping our future.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
