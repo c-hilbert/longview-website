@@ -9,20 +9,20 @@ describe('MissionSection', () => {
 
   it('renders the mission statement', () => {
     render(<MissionSection />)
-    expect(screen.getByText(/In an age of fragmented attention/)).toBeInTheDocument()
+    expect(screen.getByText(/Longview is politically independent/)).toBeInTheDocument()
   })
 
   it('renders all three value cards', () => {
     render(<MissionSection />)
-    expect(screen.getByRole('heading', { name: 'Depth Over Speed' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Expert Voices' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Curated Quality' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Intellectual Humility' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Opposing Perspectives' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Prizing Curiosity' })).toBeInTheDocument()
   })
 
   it('renders value card descriptions', () => {
     render(<MissionSection />)
-    expect(screen.getByText(/Conversations that take time to explore ideas fully/)).toBeInTheDocument()
-    expect(screen.getByText(/Access to leading thinkers/)).toBeInTheDocument()
-    expect(screen.getByText(/Every episode meticulously produced/)).toBeInTheDocument()
+    expect(screen.getByText(/We practice transparency about what we know/)).toBeInTheDocument()
+    expect(screen.getByText(/We believe opposing views are essential/)).toBeInTheDocument()
+    expect(screen.getByText(/The lifeblood of our work/)).toBeInTheDocument()
   })
 })

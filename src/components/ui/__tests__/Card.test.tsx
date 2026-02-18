@@ -28,7 +28,7 @@ describe('Card', () => {
   it('applies base card styles', () => {
     render(<Card data-testid="card">Content</Card>)
     const card = screen.getByTestId('card')
-    expect(card).toHaveClass('bg-white', 'border', 'rounded-xl', 'shadow-sm')
+    expect(card).toHaveClass('bg-[var(--bg-elevated)]', 'border', 'rounded-[var(--radius-md)]')
   })
 
   it('accepts additional className', () => {

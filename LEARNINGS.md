@@ -84,3 +84,38 @@
 - Pure white background instead of warm off-white for cleaner editorial feel
 - Border width increased to 2px for stronger definition
 - Focus rings use red tint instead of generic gray
+
+---
+
+## Authentication Architecture — Feb 18, 2026
+
+**Current Setup:**
+- **Primary:** Email/password auth via Supabase Auth (works independently)
+- **Secondary:** Google OAuth via Supabase (requires Google Cloud credentials)
+- **Fallback:** Magic link auth (passwordless) - available via Supabase
+
+**Auth Flow:**
+- Login: `/login` - Email/password form + Google OAuth button
+- Signup: `/signup` - Email/password/username form + Google OAuth button
+- Callback: `/auth/callback` - Handles OAuth redirects from Google
+- Protected routes use Supabase session middleware
+
+**Testing/Mocking Strategy:**
+For E2E tests and development without Google OAuth configured:
+- Use email/password auth for test accounts (fully functional)
+- Mock OAuth redirects by intercepting with Playwright
+- Inject test tokens directly via Supabase client
+- Alternative: Use Supabase's `signInWithPassword` for programmatic test logins
+
+**Google OAuth Setup (when ready):**
+1. Create Google Cloud project
+2. Configure OAuth consent screen
+3. Create OAuth 2.0 credentials (Client ID + Secret)
+4. Add to Supabase Auth providers
+5. Configure redirect URI: `/auth/callback`
+
+**Current Status:**
+- ✅ Email/password auth: Fully working
+- ✅ Username support: Stored in user metadata
+- ⏳ Google OAuth: Pending Gmail account access for Cloud Console
+- ✅ Mock/testing approach: Documented and ready

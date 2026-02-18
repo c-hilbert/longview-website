@@ -14,12 +14,12 @@ describe('HeroSection', () => {
 
   it('renders the main headline', () => {
     render(<HeroSection />)
-    expect(screen.getByRole('heading', { name: 'Context is everything' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'How did we get here?' })).toBeInTheDocument()
   })
 
   it('renders the subheadline', () => {
     render(<HeroSection />)
-    expect(screen.getByText(/Long-form interviews that go deeper/)).toBeInTheDocument()
+    expect(screen.getByText(/Longview is for the curious and open minded/)).toBeInTheDocument()
   })
 
   it('renders platform links', () => {

@@ -53,7 +53,7 @@ describe('VoteButton', () => {
     render(<VoteButton postId="post-1" initialCount={5} />)
 
     await waitFor(() => {
-      expect(screen.getByRole('button')).toHaveClass('text-rose-600')
+      expect(screen.getByRole('button')).toHaveClass('text-[var(--accent-primary)]')
     })
   })
 
@@ -91,7 +91,7 @@ describe('VoteButton', () => {
 
     // Wait for initial vote check
     await waitFor(() => {
-      expect(screen.getByRole('button')).toHaveClass('text-rose-600')
+      expect(screen.getByRole('button')).toHaveClass('text-[var(--accent-primary)]')
     })
 
     await userEvent.click(screen.getByRole('button'))
