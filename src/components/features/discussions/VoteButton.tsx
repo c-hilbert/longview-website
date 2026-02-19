@@ -81,15 +81,31 @@ export function VoteButton({ postId, commentId, initialCount }: VoteButtonProps)
         onClick={handleVote}
         disabled={isLoading}
         className={clsx(
-          'p-1 rounded transition-colors',
-          hasVoted ? 'text-rose-600' : 'text-stone-400 hover:text-stone-600'
+          'p-1 rounded-[var(--radius-sm)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]',
+          hasVoted 
+            ? 'text-[var(--accent-primary)]' 
+            : 'text-[var(--text-muted)] hover:text-[var(--text-tertiary)]'
         )}
+        aria-label={hasVoted ? 'Remove vote' : 'Add vote'}
       >
-        <svg className="w-5 h-5" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+        <svg 
+          className="w-5 h-5" 
+          fill={hasVoted ? 'currentColor' : 'none'} 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M5 15l7-7 7 7" 
+          />
         </svg>
       </button>
-      <span className={clsx('text-lg font-medium', hasVoted && 'text-rose-600')}>
+      <span className={clsx(
+        'text-base font-semibold font-[family-name:var(--font-inter)]',
+        hasVoted && 'text-[var(--accent-primary)]'
+      )}>
         {count}
       </span>
     </div>

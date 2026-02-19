@@ -56,7 +56,7 @@ export function ModerationMenu({ postId, isLocked, onAction }: ModerationMenuPro
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-1 text-stone-400 hover:text-stone-600 rounded"
+        className="p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-[var(--radius-md)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]"
         aria-label="Moderation options"
       >
         <svg
@@ -77,18 +77,18 @@ export function ModerationMenu({ postId, isLocked, onAction }: ModerationMenuPro
       </button>
 
       {isOpen && !showDeleteConfirm && (
-        <div className="absolute right-0 mt-1 w-36 bg-white border border-stone-200 rounded-md shadow-lg z-10">
+        <div className="absolute right-0 mt-1 w-40 bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] z-10 py-1 animate-fade-in">
           <button
             onClick={handleLockToggle}
             disabled={isLoading}
-            className="w-full px-3 py-2 text-left text-sm hover:bg-stone-50 disabled:opacity-50"
+            className="w-full px-4 py-2.5 text-left text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] disabled:opacity-50 transition-colors duration-150 font-[family-name:var(--font-inter)]"
           >
             {isLocked ? 'Unlock Post' : 'Lock Post'}
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
             disabled={isLoading}
-            className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
+            className="w-full px-4 py-2.5 text-left text-sm font-medium text-rose-600 hover:bg-rose-50 disabled:opacity-50 transition-colors duration-150 font-[family-name:var(--font-inter)]"
           >
             Delete Post
           </button>
@@ -96,21 +96,21 @@ export function ModerationMenu({ postId, isLocked, onAction }: ModerationMenuPro
       )}
 
       {showDeleteConfirm && (
-        <div className="absolute right-0 mt-1 w-48 bg-white border border-stone-200 rounded-md shadow-lg z-10 p-3">
-          <p className="text-sm text-stone-700 mb-3">
+        <div className="absolute right-0 mt-1 w-56 bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] z-10 p-4 animate-fade-in">
+          <p className="text-sm text-[var(--text-secondary)] mb-4 font-[family-name:var(--font-inter)]">
             Are you sure? This cannot be undone.
           </p>
           <div className="flex gap-2">
             <button
               onClick={handleCancelDelete}
-              className="flex-1 px-2 py-1 text-sm border border-stone-300 rounded hover:bg-stone-50"
+              className="flex-1 px-3 py-2 text-sm font-medium border border-[var(--border-medium)] rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors duration-150 font-[family-name:var(--font-inter)]"
             >
               Cancel
             </button>
             <button
               onClick={handleDelete}
               disabled={isLoading}
-              className="flex-1 px-2 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+              className="flex-1 px-3 py-2 text-sm font-medium bg-rose-600 text-white rounded-[var(--radius-md)] hover:bg-rose-700 disabled:opacity-50 transition-colors duration-150 font-[family-name:var(--font-inter)]"
             >
               Confirm
             </button>

@@ -25,7 +25,9 @@ export default async function NewSeriesPage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">Add New Series</h1>
+      <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] mb-6 tracking-[-0.02em]">
+        Add New Series
+      </h1>
       <Card>
         <SeriesForm />
       </Card>

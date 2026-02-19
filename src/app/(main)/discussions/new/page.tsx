@@ -73,11 +73,13 @@ export default function NewDiscussionPage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">Start a Discussion</h1>
+      <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] mb-6 tracking-[-0.02em]">
+        Start a Discussion
+      </h1>
 
       <Card>
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-md">
+          <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-[var(--radius-md)] font-[family-name:var(--font-inter)]">
             {error}
           </div>
         )}
@@ -101,13 +103,13 @@ export default function NewDiscussionPage() {
 
           {series.length > 0 && (
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+              <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2 font-[family-name:var(--font-inter)] tracking-[-0.01em]">
                 Related Series (optional)
               </label>
               <select
                 value={seriesId || ''}
                 onChange={(e) => setSeriesId(e.target.value || null)}
-                className="w-full px-3 py-2.5 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+                className="w-full px-4 py-3 bg-[var(--bg-elevated)] border border-[var(--border-medium)] rounded-[var(--radius-md)] text-[var(--text-primary)] font-[family-name:var(--font-inter)] text-base focus:outline-none focus:border-[var(--accent-primary)] focus:ring-3 focus:ring-[var(--accent-subtle)] transition-all duration-200"
               >
                 <option value="">None</option>
                 {series.map((s) => (
@@ -119,7 +121,7 @@ export default function NewDiscussionPage() {
             </div>
           )}
 
-          <div className="flex justify-end gap-3">
+          <div className="flex justify-end gap-3 pt-2">
             <Button
               type="button"
               variant="secondary"

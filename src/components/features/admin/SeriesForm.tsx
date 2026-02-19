@@ -86,7 +86,7 @@ export function SeriesForm({ series }: SeriesFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-md">
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-[var(--radius-md)] font-[family-name:var(--font-inter)]">
           {error}
         </div>
       )}
@@ -122,7 +122,7 @@ export function SeriesForm({ series }: SeriesFormProps) {
         placeholder="https://example.com/feed.xml"
       />
 
-      <div className="flex justify-end gap-3">
+      <div className="flex justify-end gap-3 pt-4">
         <Button
           type="button"
           variant="secondary"

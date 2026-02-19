@@ -24,28 +24,28 @@ describe('Button', () => {
   it('applies primary variant styles by default', () => {
     render(<Button>Primary</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('bg-stone-900')
+    expect(button).toHaveClass('bg-[var(--ink-black)]')
   })
 
   it('applies secondary variant styles', () => {
     render(<Button variant="secondary">Secondary</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('bg-white')
+    expect(button).toHaveClass('bg-transparent')
     expect(button).toHaveClass('border')
   })
 
   it('applies ghost variant styles', () => {
     render(<Button variant="ghost">Ghost</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('hover:bg-stone-100')
+    expect(button).toHaveClass('hover:bg-[var(--bg-secondary)]')
   })
 
   it('applies size classes correctly', () => {
     const { rerender } = render(<Button size="sm">Small</Button>)
-    expect(screen.getByRole('button')).toHaveClass('px-3', 'py-1.5')
+    expect(screen.getByRole('button')).toHaveClass('px-3', 'py-2')
 
     rerender(<Button size="md">Medium</Button>)
-    expect(screen.getByRole('button')).toHaveClass('px-4', 'py-2.5')
+    expect(screen.getByRole('button')).toHaveClass('px-5', 'py-2.5')
 
     rerender(<Button size="lg">Large</Button>)
     expect(screen.getByRole('button')).toHaveClass('px-6', 'py-3')

@@ -33,26 +33,32 @@ export function EpisodeCard({ episode, seriesName, variant = 'default' }: Episod
   return (
     <Link
       href={`/episodes/${episode.id}`}
-      className="block p-4 hover:bg-stone-50 transition-colors"
+      className="block p-4 hover:bg-[var(--bg-secondary)] transition-colors duration-150 group"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           {seriesName && (
-            <div className="text-xs text-rose-600 font-medium mb-1">
+            <div className="text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider mb-1.5">
               {seriesName}
             </div>
           )}
-          <div className="font-medium text-stone-900">{episode.title}</div>
+          <h4 className={`font-[family-name:var(--font-source-serif)] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-150 ${
+            isCompact ? 'text-sm leading-snug' : 'text-base leading-snug'
+          }`}>
+            {episode.title}
+          </h4>
           {!isCompact && episode.description && (
-            <p className="text-sm text-stone-600 mt-1 line-clamp-2">
+            <p className="text-sm text-[var(--text-tertiary)] mt-1.5 line-clamp-2 leading-relaxed font-[family-name:var(--font-inter)]">
               {episode.description}
             </p>
           )}
-          <div className="flex items-center gap-2 mt-2 text-xs text-stone-500">
-            <span>{format(new Date(episode.published_at), 'MMM d, yyyy')}</span>
+          <div className="flex items-center gap-2 mt-2 text-xs text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
+            <time dateTime={episode.published_at}>
+              {format(new Date(episode.published_at), 'MMM d, yyyy')}
+            </time>
             {episode.duration_seconds && (
               <>
-                <span>·</span>
+                <span className="text-[var(--border-dark)]">·</span>
                 <span>{formatDuration(episode.duration_seconds)}</span>
               </>
             )}

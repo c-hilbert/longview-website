@@ -1,24 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Longview Website
+
+Podcast website for Longview Investigations with episodes, discussions, and newsletter features.
+
+## Prerequisites
+
+This project requires a Supabase project for authentication and database. You'll need:
+- A Supabase account (free tier works fine)
+- Environment variables (see below)
+
+## Environment Setup
+
+Create a `.env.local` file in the project root with these variables:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Getting Your Supabase Credentials
+
+1. **NEXT_PUBLIC_SUPABASE_URL**: Go to your Supabase project → Project Settings → API → "Project URL"
+   - Looks like: `https://xyz123.supabase.co`
+
+2. **NEXT_PUBLIC_SUPABASE_ANON_KEY**: Same page, under "Project API keys" → `anon` (public)
+   - Starts with: `eyJhbG...`
 
 ## Getting Started
 
-First, run the development server:
-
+Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the development server:
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 

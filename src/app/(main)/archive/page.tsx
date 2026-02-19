@@ -42,65 +42,80 @@ export default async function ArchivePage() {
   const series = (seriesData || []) as Series[]
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold mb-2">Archive</h1>
-        <p className="text-neutral-600">Browse all episodes from our podcast series.</p>
-      </div>
+    <div className="space-y-10">
+      <header>
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-semibold text-[var(--ink-black)] mb-3 tracking-[-0.02em]">
+          Archive
+        </h1>
+        <p className="text-[var(--text-tertiary)] font-[family-name:var(--font-inter)]">
+          Browse all episodes from our podcast series.
+        </p>
+      </header>
 
       {series.length === 0 ? (
-        <Card>
-          <p className="text-neutral-500 text-center py-8">
+        <Card variant="subtle">
+          <p className="text-[var(--text-muted)] text-center py-10 font-[family-name:var(--font-inter)]">
             No episodes yet. Check back soon.
           </p>
         </Card>
       ) : (
         series.map((s) => (
-          <div key={s.id}>
-            <div className="flex items-center justify-between mb-4">
+          <section key={s.id}>
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[var(--border-light)]">
               <div>
-                <h2 className="text-lg font-semibold">{s.name}</h2>
+                <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-[var(--ink-black)]">
+                  {s.name}
+                </h2>
                 {s.description && (
-                  <p className="text-sm text-neutral-600">{s.description}</p>
+                  <p className="text-sm text-[var(--text-tertiary)] mt-1 font-[family-name:var(--font-inter)]">
+                    {s.description}
+                  </p>
                 )}
               </div>
-              <span className="text-sm text-neutral-500">
+              <span className="text-sm text-[var(--text-muted)] font-[family-name:var(--font-inter)]">
                 {s.episodes.length} episodes
               </span>
             </div>
 
-            <Card padding="none">
+            <Card padding="none" className="overflow-hidden">
               {s.episodes.length === 0 ? (
-                <p className="p-4 text-neutral-500 text-center">No episodes in this series yet.</p>
+                <p className="p-5 text-[var(--text-muted)] text-center font-[family-name:var(--font-inter)]">
+                  No episodes in this series yet.
+                </p>
               ) : (
-                <div className="divide-y divide-neutral-200">
+                <div className="divide-y divide-[var(--border-light)]">
                   {s.episodes
                     .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
                     .map((episode) => (
                       <Link
                         key={episode.id}
                         href={`/episodes/${episode.id}`}
-                        className="block p-4 hover:bg-neutral-50"
+                        className="block p-5 hover:bg-[var(--bg-secondary)]/50 transition-colors duration-150 group"
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="min-w-0 flex-1">
-                            <div className="font-medium">{episode.title}</div>
+                            <h3 className="font-[family-name:var(--font-source-serif)] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-150 leading-snug">
+                              {episode.title}
+                            </h3>
                             {episode.description && (
-                              <p className="text-sm text-neutral-600 mt-1 line-clamp-2">
+                              <p className="text-sm text-[var(--text-tertiary)] mt-1.5 line-clamp-2 font-[family-name:var(--font-inter)] leading-relaxed">
                                 {episode.description}
                               </p>
                             )}
                           </div>
-                          <div className="text-sm text-neutral-500 whitespace-nowrap">
+                          <time 
+                            dateTime={episode.published_at}
+                            className="text-sm text-[var(--text-muted)] whitespace-nowrap font-[family-name:var(--font-inter)]"
+                          >
                             {format(new Date(episode.published_at), 'MMM d, yyyy')}
-                          </div>
+                          </time>
                         </div>
                       </Link>
                     ))}
                 </div>
               )}
             </Card>
-          </div>
+          </section>
         ))
       )}
     </div>

@@ -35,7 +35,7 @@ describe('Input', () => {
   it('applies normal border when no error', () => {
     render(<Input data-testid="normal-input" />)
     const input = screen.getByTestId('normal-input')
-    expect(input).toHaveClass('border-stone-300')
+    expect(input).toHaveClass('border-[var(--border-medium)]')
   })
 
   it('is disabled when disabled prop is true', () => {
