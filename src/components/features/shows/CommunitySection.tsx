@@ -25,14 +25,9 @@ export function CommunitySection({ posts }: CommunitySectionProps) {
   return (
     <section className="py-16 sm:py-20 border-t border-[var(--border-light)]">
       <div className="flex items-center justify-between mb-8">
-        <div>
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)] mb-2">
-            Community Discussions
-          </h2>
-          <p className="text-[var(--text-tertiary)] font-[family-name:var(--font-inter)]">
-            Join the conversation with fellow listeners
-          </p>
-        </div>
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-semibold text-[var(--ink-black)]">
+          Discussions
+        </h2>
         
         <Link
           href="/discussions"

@@ -68,13 +68,6 @@ export function MobileMenu({ isLoggedIn }: MobileMenuProps) {
             >
               Archive
             </Link>
-            <Link
-              href="/guidelines"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-[var(--radius-md)] font-medium transition-colors duration-150"
-            >
-              Guidelines
-            </Link>
             {!isLoggedIn && (
               <>
                 <div className="border-t border-[var(--border-light)] my-2" />

@@ -37,12 +37,6 @@ export async function Header() {
             >
               Archive
             </Link>
-            <Link
-              href="/guidelines"
-              className="text-sm font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200 tracking-[-0.01em]"
-            >
-              Guidelines
-            </Link>
           </nav>
         </div>
 
